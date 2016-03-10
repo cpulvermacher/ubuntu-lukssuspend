@@ -15,8 +15,9 @@ if [[ $EUID -ne 0 ]]; then
    exit 2
 fi
 
-# Clear the destination interface
+# Clear the build and destination interface
 rm -Rf $BUILD_DIR
+rm -Rf $CHROOTTARGET
 
 # Populate the source folder
 mkdir -p $BUILD_DIR/{dev,proc,sys,bin,var,usr,run,lib,lib64}
@@ -33,3 +34,4 @@ cat ./functions/suspend.sh | sed "s|CHROOTTARGET|$CHROOTTARGET|g" > $BUILD_DIR/s
 
 # Move the BUILD_DIR to the SUSPEND_DIR
 mv $BUILD_DIR $SUSPEND_DIR
+chmod +x $CHROOTTARGET/*.sh
