@@ -7,7 +7,7 @@ THERE ARE CAVEATS FOR USE:<br>
  The default options will create, write to, and chroot to /boot/suspend.<br><br>
 
 To use:<br>
-1. Run 'mksuspend.sh &lt;luks_device$gt;'. This can be the short-name or the /dev/mapper/sdXn_crypt<br>
+1. Run 'mksuspend.sh &lt;luks_device&gt;'. This can be the short-name or the /dev/mapper/sdXn_crypt<br>
 2. Call /boot/suspend/suspend.sh<br><br>
 
 The host will suspend to RAM. When the host resumes, you will be prompted for the encryption passphrase on vty8. When entered, it will return to the GUI on vty7.
