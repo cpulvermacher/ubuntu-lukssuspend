@@ -11,3 +11,13 @@ Auto-builder for a functional Ubuntu LuksSuspend-to-RAM method.
 - Call /boot/suspend/suspend.sh<br><br>
 
 After a few second delay, the host will suspend to RAM. When the host resumes, you will be prompted for the encryption passphrase on vty8. When entered, it will return to calling process.
+
+## Process
+This script performs the following actions:
+- Builds a CHROOT target with the necessary executables and libraries to perform cryptsetup and suspend-to-RAM
+- Copies dynamically-generated bash scripts into the CHROOT target folder
+- Places handling scripts and hooks for lid-close ACPI events
+- Configures logind default lid action to 'ignore'.
+- Restarts ACPId to pick up the changes.
+
+Behavior should function immediately after executing the script.
