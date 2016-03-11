@@ -23,15 +23,20 @@ rm -Rf $CHROOTTARGET
 mkdir -p $BUILD_DIR/{dev,proc,sys,bin,var,usr,run,lib,lib64}
 cp /bin/bash $BUILD_DIR/bin/
 cp /bin/sync $BUILD_DIR/bin/
+cp /bin/sleep $BUILD_DIR/bin/
 cp /sbin/cryptsetup $BUILD_DIR/bin/
 ./functions/cplib.sh /bin/bash $BUILD_DIR
 ./functions/cplib.sh /bin/sync $BUILD_DIR
+./functions/cplib.sh /bin/sleep $BUILD_DIR
 ./functions/cplib.sh /sbin/cryptsetup $BUILD_DIR
 
 # Copy/Edit the Functions
 cat ./functions/luksSuspend.sh | sed "s|LUKSDEVICE|$1|g" > $BUILD_DIR/luksSuspend.sh
 cat ./functions/suspend.sh | sed "s|CHROOTTARGET|$CHROOTTARGET|g" > $BUILD_DIR/suspend.sh
+cat ./lm/lid_change.sh | sed "s|CHROOTTARGET|$CHROOTTARGET|g" > /etc/acpi/lid_change.sh
+cat ./lm/lm_lid > /etc/acpi/events/lm_lid
 
 # Move the BUILD_DIR to the SUSPEND_DIR
 mv $BUILD_DIR $SUSPEND_DIR
 chmod +x $CHROOTTARGET/*.sh
+chmod +x /etc/acpi/lid_change.sh
