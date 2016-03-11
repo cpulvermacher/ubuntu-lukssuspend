@@ -40,3 +40,12 @@ cat ./lm/lm_lid > /etc/acpi/events/lm_lid
 mv $BUILD_DIR $SUSPEND_DIR
 chmod +x $CHROOTTARGET/*.sh
 chmod +x /etc/acpi/lid_change.sh
+
+# Alter default behaviors to avoid redundant suspend (my regex-foo is weak)
+sed -i 's/^#HandleLidSwitch=.*$/HandleLidSwitch=ignore/' /etc/systemd/logind.conf
+sed -i 's/^HandleLidSwitch=.*$/HandleLidSwitch=ignore/' /etc/systemd/logind.conf
+echo "Default lid behavior supressed"
+
+# Reload ACPId to pick up the changes
+service acpid restart
+echo "ACPId restarted"

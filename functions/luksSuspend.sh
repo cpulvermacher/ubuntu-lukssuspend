@@ -5,13 +5,18 @@ function do_suspend() {
    echo -n "mem" > /sys/power/state
 }
 
-sync
-cryptsetup luksSuspend LUKSDEVICE
-sync
+function do_lockunlock() {
+   sync
+   cryptsetup luksSuspend LUKSDEVICE
+   sync
 
-echo "Attempting to suspend"
-do_suspend &
-sleep 5
-echo "- Attempting to unlock..."
+   echo "Attempting to suspend"
+   do_suspend &
+   sleep 1
+   echo "- Attempting to unlock..."
 
-cryptsetup luksResume LUKSDEVICE
+   cryptsetup luksResume LUKSDEVICE
+}
+
+sleep 2
+do_lockunlock
