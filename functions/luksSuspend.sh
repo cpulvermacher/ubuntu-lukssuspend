@@ -8,7 +8,6 @@ function do_suspend() {
 function do_lockunlock() {
    sync
    cryptsetup luksSuspend LUKSDEVICE
-   sync
 
    echo "Attempting to suspend"
    do_suspend &
