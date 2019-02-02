@@ -6,6 +6,14 @@ function do_suspend() {
 }
 
 function do_lockunlock() {
+   echo "Preparing suspend..."
+   physlock -l # lock tty switching
+
+   echo "Freezing processes..."
+   pkill -STOP --inverse -u 0
+
+   echo "Clearing caches..."
+   echo 3 > /proc/sys/vm/drop_caches
    sync
    cryptsetup luksSuspend LUKSDEVICE
 
@@ -14,7 +22,14 @@ function do_lockunlock() {
    sleep 1
    echo "- Attempting to unlock..."
 
-   cryptsetup luksResume LUKSDEVICE
+   until cryptsetup luksResume LUKSDEVICE; do
+      echo "Retrying..."
+   done
+
+   echo "Unfreezing processes..."
+   pkill -CONT --inverse -u 0
+
+   physlock -L # unlock tty switching
 }
 
 sleep 2

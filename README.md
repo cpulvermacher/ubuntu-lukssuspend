@@ -1,9 +1,11 @@
 Auto-builder for a functional Ubuntu LuksSuspend-to-RAM method.
 
+## Changes in this Fork
+- Suspends (sends SIGSTOP) to processes that cannot keep their hands off the disk (e.g. chrome).
+
 ## Caveats
 - Works as-written with XFS and BTRFS
 - ext2, ext3, and ext4 filesystems must use the 'NOBARRIER' options
-- Active sessions on vty1-6 will cause the suspend to fail. The script accounts for that by killing all PIDs on VTYs.
 - The default options will create, write to, and chroot to /boot/suspend.
 
 ## Usage

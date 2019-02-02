@@ -1,4 +1,5 @@
 #! /bin/bash
+set -eu
 
 BUILD_DIR="./suspend"
 SUSPEND_DIR="/boot/"
@@ -25,10 +26,14 @@ cp /bin/bash $BUILD_DIR/bin/
 cp /bin/sync $BUILD_DIR/bin/
 cp /bin/sleep $BUILD_DIR/bin/
 cp /sbin/cryptsetup $BUILD_DIR/bin/
+cp /usr/bin/physlock $BUILD_DIR/bin/
+cp /usr/bin/pkill $BUILD_DIR/bin/
 ./functions/cplib.sh /bin/bash $BUILD_DIR
 ./functions/cplib.sh /bin/sync $BUILD_DIR
 ./functions/cplib.sh /bin/sleep $BUILD_DIR
 ./functions/cplib.sh /sbin/cryptsetup $BUILD_DIR
+./functions/cplib.sh /usr/bin/physlock $BUILD_DIR
+./functions/cplib.sh /usr/bin/pkill $BUILD_DIR
 
 # Copy/Edit the Functions
 cat ./functions/luksSuspend.sh | sed "s|LUKSDEVICE|$1|g" > $BUILD_DIR/luksSuspend.sh
